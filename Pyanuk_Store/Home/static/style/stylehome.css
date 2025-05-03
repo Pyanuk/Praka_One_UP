@@ -165,7 +165,6 @@ h2::after {
     color: #ff6b7c;
 }
 
-/* Пагинация */
 .swiper-pagination {
     position: absolute;
     bottom: 20px;
@@ -184,9 +183,79 @@ h2::after {
     opacity: 1;
 }
 
+@media (max-width: 768px) {
+    .jumbotron h1 {
+        font-size: 2rem;
+        line-height: 1.2;
+        word-wrap: break-word;
+        text-align: center;
+        padding: 0 10px;
+    }
 
-@media (max-width: 767px) {
-    .card {
-        width: 90%;
+    .jumbotron p {
+        text-align: center;
+        padding: 0 10px;
+    }
+
+    .jumbotron {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+
+    .jumbotron .btn-custom {
+        padding: 10px 25px;
+        font-size: 1rem;
+    }
+}
+
+
+.swiper-container {
+    width: 100%;
+    padding: 20px 0;
+}
+
+.card {
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+.card-img-top {
+    height: 180px; 
+    object-fit: cover;
+}
+
+@media (max-width: 768px) {
+    .swiper-slide {
+        width: 80% !important; 
+    }
+
+    .card-img-top {
+        height: 150px;
+    }
+
+    .card-title {
+        font-size: 1.2rem;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    .swiper-slide {
+        width: 40% !important;
+    }
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+    display: none; 
+}
+
+@media (min-width: 576px) {
+    .swiper-button-next,
+    .swiper-button-prev {
+        display: block;
     }
 }
