@@ -1,6 +1,7 @@
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from Home.views import home, company, contacts, map,  category, full, basket, register, user_login ,user_logout, categories_view, add_to_cart, update_cart, checkout
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -17,5 +18,9 @@ urlpatterns = [
     path('logout/', user_logout, name='logout'),
     path('add-to-cart/<int:product_id>/', add_to_cart, name='add_to_cart'),
     path('update-cart/<int:cart_id>/', update_cart, name='update_cart'),
-    path('checkout/', checkout, name='checkout')
+    path('checkout/', checkout, name='checkout'),
+    path('api/', include('api_shop.urls'))
 ]
+
+
+
