@@ -18,8 +18,17 @@ header {
     margin: 0 auto;
     padding: 0 20px;
     display: flex;
+    justify-content: center; /* Центрируем содержимое */
     align-items: center;
-    justify-content: space-between;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center; /* Центрируем элементы внутри <ul> */
+    align-items: center;
+    width: 100%; /* Убедимся, что <ul> занимает всю ширину контейнера */
+    padding: 0; /* Убираем лишние отступы */
 }
 
 
@@ -28,11 +37,6 @@ header {
     align-items: center;
 }
 
-nav ul {
-    list-style: none;
-    display: flex;
-    align-items: center;
-}
 
 nav ul li {
     position: relative;
