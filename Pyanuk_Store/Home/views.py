@@ -63,31 +63,44 @@ def full(request):
     })
 
 def basket(request):
+    if 'user_id' not in request.session:
+        messages.error(request, 'Чтобы посмотреть корзину, нужно авторизоваться.')
+        return redirect('login')
+
     cart_items_with_total = []
     total = 0
-
-    if 'user_id' in request.session:
-        user = Users.objects.get(id=request.session['user_id'])
-        cart_items = Cart.objects.filter(user=user)
-        total = sum(item.product.price * item.quantity for item in cart_items)
-        cart_items_with_total = [{'item': item, 'subtotal': item.product.price * item.quantity} for item in cart_items]
-    else:
-        messages.error(request, 'Вы должны авторизоваться, чтобы видеть корзину.')
+    user = Users.objects.get(id=request.session['user_id'])
+    cart_items = Cart.objects.filter(user=user)
+    total = sum(item.product.price * item.quantity for item in cart_items)
+    cart_items_with_total = [{'item': item, 'subtotal': item.product.price * item.quantity} for item in cart_items]
 
     return render(request, 'home/basket.html', {'cart_items': cart_items_with_total, 'total': total})
 
 def add_to_cart(request, product_id):
     if 'user_id' not in request.session:
-        messages.error(request, 'Вы должны авторизоваться, чтобы добавить товар в корзину.', extra_tags='auth-message')
-        return redirect(request.META.get('HTTP_REFERER', 'home'))
+        return JsonResponse({
+            'success': False,
+            'error': 'Вы должны авторизоваться, чтобы добавить товар в корзину.'
+        })
     
-    user = Users.objects.get(id=request.session['user_id'])
-    product = Products.objects.get(id=product_id)
-    cart_item, created = Cart.objects.get_or_create(user=user, product=product, defaults={'quantity': 1})
-    if not created:
-        cart_item.quantity += 1
-        cart_item.save()
-    return redirect(request.META.get('HTTP_REFERER', 'home'))
+    try:
+        user = Users.objects.get(id=request.session['user_id'])
+        product = Products.objects.get(id=product_id)
+        cart_item, created = Cart.objects.get_or_create(user=user, product=product, defaults={'quantity': 1})
+        if not created:
+            cart_item.quantity += 1
+            cart_item.save()
+        return JsonResponse({
+            'success': True,
+            'message': 'Товар добавлен в корзину!',
+            'product_id': product_id,
+            'in_cart': True
+        })
+    except Exception as e:
+        return JsonResponse({
+            'success': False,
+            'error': str(e)
+        })
 
 def update_cart(request, cart_id):
     if 'user_id' not in request.session:
@@ -98,12 +111,20 @@ def update_cart(request, cart_id):
     action = request.GET.get('action')
     if action == 'increase':
         cart_item.quantity += 1
+        cart_item.save()
+        return redirect('basket')
     elif action == 'decrease' and cart_item.quantity > 1:
         cart_item.quantity -= 1
-    elif action == 'delete':
-        cart_item.delete()
+        cart_item.save()
         return redirect('basket')
-    cart_item.save()
+    elif action == 'delete':
+        product_id = cart_item.product.id
+        cart_item.delete()
+        return JsonResponse({
+            'success': True,
+            'product_id': product_id,
+            'in_cart': False
+        })
     return redirect('basket')
 
 def register(request):
@@ -142,7 +163,6 @@ def user_login(request):
         try:
             user = Users.objects.get(email=email)
             if check_password(password, user.password_users):
-                
                 request.session['user_id'] = user.id
                 messages.success(request, 'Logged in successfully.')
                 return redirect('home')
