@@ -78,12 +78,12 @@ WSGI_APPLICATION = 'Pyanuk_Store.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'HOST': 'localhost',
-        'PORT': '5432',
-        'NAME': 'StoreDB',
-        'USER': 'postgres',
-        'PASSWORD': '1'
+        'ENGINE': 'django.db.backends.mysql',
+        'HOST': '',
+        'PORT': '3306',
+        'NAME': '$DataBase',
+        'USER': '',
+        'PASSWORD': ''
     }
 }
 
