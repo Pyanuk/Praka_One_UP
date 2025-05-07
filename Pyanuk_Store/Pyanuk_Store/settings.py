@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-(hpjt@+7z2^0gx%vm-96^-p%4oe)a&&qhs3rp1s+7a+#xsw4im'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -78,12 +78,12 @@ WSGI_APPLICATION = 'Pyanuk_Store.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'HOST': '',
-        'PORT': '3306',
-        'NAME': '$DataBase',
-        'USER': '',
-        'PASSWORD': ''
+        'ENGINE': 'django.db.backends.postgresql',
+        'HOST': 'aws-0-eu-central-1.pooler.supabase.com',
+        'PORT': '6543',
+        'NAME': 'postgres',
+        'USER': 'postgres.swtfcirfmcbemmtgjttj',
+        'PASSWORD': 'Ramil2006./'
     }
 }
 
