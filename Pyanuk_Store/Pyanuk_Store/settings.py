@@ -52,7 +52,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'Pyanuk_Store.urls'
+ROOT_URLCONF = 'pyanuk_store.urls'
 
 TEMPLATES = [
     {
@@ -70,7 +70,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'Pyanuk_Store.wsgi.application'
+WSGI_APPLICATION = 'pyanuk_store.wsgi.application'
 
 
 # Database
